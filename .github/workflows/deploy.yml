@@ -44,6 +44,19 @@ jobs:
           mkdir -p dist/profile
           cp profile/index.html dist/profile/index.html
 
+      - name: Remove stale custom domain
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if gh api --method PUT "repos/${GITHUB_REPOSITORY}/pages" --input - <<'JSON'
+          {"cname": null}
+          JSON
+          then
+            echo "Removed stale custom domain."
+          else
+            echo "::warning::Could not remove custom domain with GITHUB_TOKEN; deployment will continue."
+          fi
+
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
