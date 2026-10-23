@@ -39,6 +39,11 @@ jobs:
       - name: Build
         run: pnpm run build
 
+      - name: Add personal profile page
+        run: |
+          mkdir -p dist/profile
+          cp profile/index.html dist/profile/index.html
+
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
